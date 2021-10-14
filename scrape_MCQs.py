@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-url = 'https://www.learninsta.com/mcq-questions-for-class-12-business-studies-chapter-1/'
+url = 'https://www.learninsta.com/[URL}...'
 
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
