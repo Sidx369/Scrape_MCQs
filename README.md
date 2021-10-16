@@ -15,7 +15,7 @@ In terminal type - `pip install requests`
  `pip install bs4`
  `pip install pandas`
 
-3. Download and move chromedriver.exe to the main repository.
+3. Download and move chromedriver.exe to the main repository(only for using selenium)
 
 4. Change the URL of the page you want to scrape inside scrape_MCQs.py file
 
