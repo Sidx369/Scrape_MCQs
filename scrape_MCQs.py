@@ -25,9 +25,9 @@ for i in mcqs[4:-3]:
         
         if questions[2][0]!='(':
             question = question + ' ' + questions[2]
-            options = [x[4:].strip() for x in questions[3:]]
+            options = [x[4:].strip('.').strip() for x in questions[3:]]
         else:
-            options = [x[4:].strip() for x in questions[2:]]
+            options = [x[4:].strip('.').strip() for x in questions[2:]]
 
         #print('\nq', question)
         info = {
@@ -36,8 +36,15 @@ for i in mcqs[4:-3]:
             "options": options
         }
     elif flag==0:
+        ans_list = ['', '', '', '']
+        ans_option = ord(i.get_text().strip('')[9:10])
         answer = i.get_text().strip('')[12:]
-        info["answer"] = answer.split("\n",1)[0].strip('.')
+        
+        ans_list.insert(ans_option-97, answer.split("\n",1)[0].strip('.'))
+        #print(ans_list)
+        
+        info["answer"] = ans_list
+
         items.append(info)
         #print(info)
     #print('\n')
@@ -53,6 +60,7 @@ for i in range(len(df['options'].to_list())):
 
 print(max(len_options))
 
+answers_list = ['answer1', 'answer2', 'answer3', 'answer4','answer5']
 if max(len_options)==4:
     option_list = ['option1', 'option2', 'option3', 'option4']
 elif max(len_options)==3:
@@ -61,9 +69,10 @@ elif max(len_options)==5:
     option_list = ['option1', 'option2', 'option3', 'option4', 'option5']
 
 option_df = pd.DataFrame(df['options'].to_list(), columns = option_list)
+answers_df = pd.DataFrame(df['answer'].to_list(), columns = answers_list)
 
-answers = df['answer']
+df = pd.concat([df.drop(['options', 'answer'], axis=1), option_df, answers_df], axis=1)
 
-df = pd.concat([df.drop(['options', 'answer'], axis=1), option_df, answers], axis=1)
-
-df.to_csv('sheet2.csv')
+#df.to_csv('sheetpy.csv')
+df.to_excel('sheetpy.xls')
+print("Sheet saved to sheetpy.csv/.xls")

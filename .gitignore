@@ -26,5 +26,6 @@ env.bak/
 venv.bak/
 
 sheet1.csv
-sheet2.csv
+sheet1.xls
+sheetpy.csv
 chromedriver.exe
