@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-url = 'https://www.learninsta.com/[URL]...'
+url = '[URL}'
 
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
@@ -11,6 +11,7 @@ mcqs = page_body.select('p')
 
 items = []
 flag = 1
+invalid_ques = False
 
 for i in mcqs[4:-3]:
     if str(i.find('span')) != 'None':
@@ -19,6 +20,13 @@ for i in mcqs[4:-3]:
     if flag==1:
         questions = i.text.split('\n')
         question_no = questions[0].split(' ', 1)[1].strip('.')
+
+        print('question_no=', question_no)
+        if(question_no == '21'):  # or question_no == '46'
+            invalid_ques = True
+            flag = 1-flag
+            continue
+        
         question = questions[1]
         #print([x[0].strip() for x in questions[2][0]])
         #print('\nq1', questions[2])
@@ -35,7 +43,13 @@ for i in mcqs[4:-3]:
             "question": question.strip(),
             "options": options
         }
+        
     elif flag==0:
+        if invalid_ques == True:
+            invalid_ques = False
+            flag = 1-flag
+            continue
+        
         ans_list = ['', '', '', '']
         ans_option = ord(i.get_text().strip('')[9:10])
         answer = i.get_text().strip('')[12:]
@@ -47,7 +61,7 @@ for i in mcqs[4:-3]:
 
         items.append(info)
         #print(info)
-    #print('\n')
+    print('\n')
     flag = 1-flag
 
         
